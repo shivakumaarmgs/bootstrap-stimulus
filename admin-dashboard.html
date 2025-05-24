@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Admin Dashboard</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/@hotwired/stimulus/dist/stimulus.umd.js"></script>
+    
+    <!-- Custom Admin Theme CSS -->
+    <style>
+        /* ===== MODERN ADMIN THEME CSS ===== */
+        
+        :root {
+            /* Color Palette - Neutral & Professional */
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #3730a3;
+            --secondary: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            
+            /* Neutral Grays */
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            
+            /* Layout */
+            --sidebar-width: 280px;
+            --topbar-height: 70px;
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            
+            /* Typography */
+            --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        /* Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        /* Base Styles */
+        body {
+            font-family: var(--font-family-sans);
+            background-color: var(--gray-50);
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+        
+        /* Bootstrap Color Overrides */
+        .bg-primary { background-color: var(--primary) !important; }
+        .bg-secondary { background-color: var(--secondary) !important; }
+        .bg-success { background-color: var(--success) !important; }
+        .bg-danger { background-color: var(--danger) !important; }
+        .bg-warning { background-color: var(--warning) !important; }
+        .bg-info { background-color: var(--info) !important; }
+        
+        .text-primary { color: var(--primary) !important; }
+        .text-secondary { color: var(--secondary) !important; }
+        .text-muted { color: var(--gray-500) !important; }
+        
+        .border { border-color: var(--gray-200) !important; }
+        .border-primary { border-color: var(--primary) !important; }
+        
+        /* Layout Structure */
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1030;
+        }
+        
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+        
+        .sidebar-brand {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+        
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        
+        .sidebar-nav .nav-item {
+            margin-bottom: 0.25rem;
+        }
+        
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-radius: 0;
+            border: none;
+        }
+        
+        .sidebar-nav .nav-link:hover {
+            background-color: var(--gray-100);
+            color: var(--gray-900);
+        }
+        
+        .sidebar-nav .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .sidebar-nav .nav-link i {
+            width: 20px;
+            text-align: center;
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-content.sidebar-collapsed {
+            margin-left: 0;
+        }
+        
+        /* Topbar */
+        .topbar {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            height: var(--topbar-height);
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1020;
+        }
+        
+        .topbar .btn-link {
+            color: var(--gray-600);
+            border: none;
+            background: none;
+            padding: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .topbar .btn-link:hover {
+            color: var(--gray-900);
+        }
+        
+        /* Content Area */
+        .content-area {
+            padding: 2rem;
+        }
+        
+        /* Cards */
+        .card {
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            background-color: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Buttons */
+        .btn {
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-outline-primary {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--gray-600);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--gray-700);
+        }
+        
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Forms */
+        .form-control {
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            padding: 0.6rem 0.75rem;
+            font-size: 0.9rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .table {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+        }
+        
+        .table thead th {
+            background-color: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+            font-weight: 600;
+            color: var(--gray-700);
+            padding: 1rem;
+        }
+        
+        .table tbody td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .table tbody tr:hover {
+            background-color: var(--gray-50);
+        }
+        
+        /* Dropdowns */
+        .dropdown-menu {
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            padding: 0.5rem 0;
+        }
+        
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+            color: var(--gray-700);
+            transition: background-color 0.2s ease;
+        }
+        
+        .dropdown-item:hover {
+            background-color: var(--gray-100);
+            color: var(--gray-900);
+        }
+        
+        .dropdown-item.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Alerts */
+        .alert {
+            border-radius: var(--border-radius);
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .alert-primary {
+            background-color: rgba(79, 70, 229, 0.1);
+            color: var(--primary-dark);
+        }
+        
+        .alert-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #065f46;
+        }
+        
+        .alert-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #991b1b;
+        }
+        
+        .alert-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #92400e;
+        }
+        
+        /* Modal Overrides */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1055;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            outline: 0;
+        }
+        
+        .modal.show {
+            display: block !important;
+        }
+        
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1050;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            opacity: 0.5;
+        }
+        
+        .modal-dialog {
+            position: relative;
+            width: auto;
+            margin: 1.75rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .modal-content {
+            border: none;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .modal-header {
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1.5rem;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-footer {
+            border-top: 1px solid var(--gray-200);
+            padding: 1.5rem;
+        }
+        
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            opacity: 0.5;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+        }
+        
+        .btn-close:hover {
+            opacity: 0.75;
+        }
+        
+        .btn-close::before {
+            content: "×";
+        }
+        
+        /* Badges */
+        .badge {
+            font-weight: 500;
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--border-radius);
+        }
+        
+        /* Utilities */
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+        
+        /* Responsive */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .content-area {
+                padding: 1rem;
+            }
+        }
+        
+        /* Sidebar Overlay for Mobile */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1025;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Collapsible Menu Items */
+        .nav-item.has-submenu .nav-link::after {
+            content: '\F282';
+            font-family: 'bootstrap-icons';
+            margin-left: auto;
+            transition: transform 0.2s ease;
+        }
+        
+        .nav-item.has-submenu.open .nav-link::after {
+            transform: rotate(180deg);
+        }
+        
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: var(--gray-50);
+        }
+        
+        .submenu.open {
+            max-height: 500px;
+        }
+        
+        .submenu .nav-link {
+            padding-left: 3rem;
+            font-size: 0.9rem;
+        }
+    </style>
+    
+    <!-- Stimulus.js -->
+    <script type="module">
+        import { Application } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+        
+        const application = Application.start()
+        
+        // Dropdown Controller
+        application.register("dropdown", class extends Stimulus.Controller {
+            static targets = ["menu"]
+            
+            connect() {
+                this.isOpen = false
+                this.boundClickOutside = this.clickOutside.bind(this)
+            }
+            
+            toggle() {
+                if (this.isOpen) {
+                    this.close()
+                } else {
+                    this.open()
+                }
+            }
+            
+            open() {
+                this.menuTarget.classList.add("show")
+                this.isOpen = true
+                document.addEventListener("click", this.boundClickOutside)
+            }
+            
+            close() {
+                this.menuTarget.classList.remove("show")
+                this.isOpen = false
+                document.removeEventListener("click", this.boundClickOutside)
+            }
+            
+            clickOutside(event) {
+                if (!this.element.contains(event.target)) {
+                    this.close()
+                }
+            }
+        })
+        
+        // Collapsible Controller
+        application.register("collapsible", class extends Stimulus.Controller {
+            static targets = ["content"]
+            
+            toggle() {
+                const content = this.contentTarget
+                const isOpen = content.classList.contains("open")
+                
+                if (isOpen) {
+                    this.close()
+                } else {
+                    this.open()
+                }
+            }
+            
+            open() {
+                this.element.classList.add("open")
+                this.contentTarget.classList.add("open")
+            }
+            
+            close() {
+                this.element.classList.remove("open")
+                this.contentTarget.classList.remove("open")
+            }
+        })
+        
+        // Sidebar Toggle Controller
+        application.register("sidebar", class extends Stimulus.Controller {
+            static targets = ["sidebar", "overlay", "content"]
+            
+            toggle() {
+                const isMobile = window.innerWidth < 992
+                
+                if (isMobile) {
+                    this.toggleMobile()
+                } else {
+                    this.toggleDesktop()
+                }
+            }
+            
+            toggleMobile() {
+                this.sidebarTarget.classList.toggle("show")
+                this.overlayTarget.classList.toggle("show")
+            }
+            
+            toggleDesktop() {
+                this.sidebarTarget.classList.toggle("collapsed")
+                this.contentTarget.classList.toggle("sidebar-collapsed")
+            }
+            
+            closeMobile() {
+                this.sidebarTarget.classList.remove("show")
+                this.overlayTarget.classList.remove("show")
+            }
+        })
+        
+        // Modal Controller (Optional)
+        application.register("modal", class extends Stimulus.Controller {
+            static targets = ["modal"]
+            
+            open() {
+                this.modalTarget.classList.add("show")
+                this.modalTarget.style.display = "block"
+                document.body.classList.add("modal-open")
+                
+                // Add backdrop
+                if (!document.querySelector('.modal-backdrop')) {
+                    const backdrop = document.createElement('div')
+                    backdrop.className = 'modal-backdrop fade show'
+                    document.body.appendChild(backdrop)
+                }
+            }
+            
+            close() {
+                this.modalTarget.classList.remove("show")
+                this.modalTarget.style.display = "none"
+                document.body.classList.remove("modal-open")
+                
+                // Remove backdrop
+                const backdrop = document.querySelector('.modal-backdrop')
+                if (backdrop) {
+                    backdrop.remove()
+                }
+            }
+            
+            backdropClick(event) {
+                if (event.target === this.modalTarget) {
+                    this.close()
+                }
+            }
+        })
+    </script>
+</head>
+<body>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" data-sidebar-target="overlay" data-action="click->sidebar#closeMobile"></div>
+    
+    <div class="admin-wrapper" data-controller="sidebar">
+        <!-- Sidebar -->
+        <nav class="sidebar" data-sidebar-target="sidebar">
+            <a href="#" class="sidebar-brand">
+                <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+                AdminPanel
+            </a>
+            
+            <ul class="sidebar-nav nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">
+                        <i class="bi bi-house"></i>
+                        Dashboard
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-people"></i>
+                        Users
+                    </a>
+                </li>
+                
+                <li class="nav-item has-submenu" data-controller="collapsible">
+                    <a class="nav-link" href="#" data-action="click->collapsible#toggle">
+                        <i class="bi bi-folder"></i>
+                        Projects
+                    </a>
+                    <ul class="submenu nav flex-column" data-collapsible-target="content">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">All Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Active Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Archived</a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-bar-chart"></i>
+                        Analytics
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-gear"></i>
+                        Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content" data-sidebar-target="content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <button class="btn btn-link d-lg-none" data-action="click->sidebar#toggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                
+                <button class="btn btn-link d-none d-lg-block" data-action="click->sidebar#toggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                
+                <div class="ms-auto d-flex align-items-center">
+                    <!-- Search -->
+                    <div class="me-3">
+                        <input type="search" class="form-control" placeholder="Search..." style="width: 250px;">
+                    </div>
+                    
+                    <!-- Notifications Dropdown -->
+                    <div class="dropdown me-3" data-controller="dropdown">
+                        <button class="btn btn-link position-relative" data-action="click->dropdown#toggle">
+                            <i class="bi bi-bell fs-5"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                3
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" data-dropdown-target="menu">
+                            <li><h6 class="dropdown-header">Notifications</h6></li>
+                            <li><a class="dropdown-item" href="#">New user registered</a></li>
+                            <li><a class="dropdown-item" href="#">Project updated</a></li>
+                            <li><a class="dropdown-item" href="#">System maintenance</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">View all notifications</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- User Dropdown -->
+                    <div class="dropdown" data-controller="dropdown">
+                        <button class="btn btn-link d-flex align-items-center" data-action="click->dropdown#toggle">
+                            <img src="https://via.placeholder.com/32" alt="User" class="rounded-circle me-2">
+                            <span class="d-none d-sm-block">John Doe</span>
+                            <i class="bi bi-chevron-down ms-1"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" data-dropdown-target="menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Page Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h3 mb-0">Dashboard</h1>
+                    <button class="btn btn-primary">
+                        <i class="bi bi-plus-lg me-2"></i>
+                        New Project
+                    </button>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded">
+                                            <i class="bi bi-people text-primary fs-4"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1">1,234</h5>
+                                        <p class="text-muted mb-0">Total Users</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xl-3 col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-success bg-opacity-10 p-3 rounded">
+                                            <i class="bi bi-graph-up text-success fs-4"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1">$12,345</h5>
+                                        <p class="text-muted mb-0">Revenue</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xl-3 col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-warning bg-opacity-10 p-3 rounded">
+                                            <i class="bi bi-clock text-warning fs-4"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1">56</h5>
+                                        <p class="text-muted mb-0">Pending Tasks</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xl-3 col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-info bg-opacity-10 p-3 rounded">
+                                            <i class="bi bi-folder text-info fs-4"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1">89</h5>
+                                        <p class="text-muted mb-0">Projects</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Content Cards -->
+                <div class="row">
+                    <div class="col-lg-8 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Recent Activity</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Action</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="https://via.placeholder.com/32" alt="User" class="rounded-circle me-2">
+                                                        <span class="font-medium">John Smith</span>
+                                                    </div>
+                                                </td>
+                                                <td>Created new project</td>
+                                                <td class="text-muted">2 hours ago</td>
+                                                <td><span class="badge bg-success">Completed</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="https://via.placeholder.com/32" alt="User" class="rounded-circle me-2">
+                                                        <span class="font-medium">Sarah Johnson</span>
+                                                    </div>
+                                                </td>
+                                                <td>Updated user profile</td>
+                                                <td class="text-muted">4 hours ago</td>
+                                                <td><span class="badge bg-warning">Pending</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="https://via.placeholder.com/32" alt="User" class="rounded-circle me-2">
+                                                        <span class="font-medium">Mike Davis</span>
+                                                    </div>
+                                                </td>
+                                                <td>Uploaded documents</td>
+                                                <td class="text-muted">1 day ago</td>
+                                                <td><span class="badge bg-success">Completed</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Quick Actions</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-primary">
+                                        <i class="bi bi-plus-lg me-2"></i>
+                                        Add New User
+                                    </button>
+                                    <button class="btn btn-outline-primary">
+                                        <i class="bi bi-upload me-2"></i>
+                                        Import Data
+                                    </button>
+                                    <button class="btn btn-outline-primary">
+                                        <i class="bi bi-download me-2"></i>
+                                        Export Report
+                                    </button>
+                                    <button class="btn btn-outline-primary">
+                                        <i class="bi bi-gear me-2"></i>
+                                        System Settings
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Alerts -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">System Status</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-success" role="alert">
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    All systems operational
+                                </div>
+                                <div class="alert alert-warning" role="alert">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    Scheduled maintenance in 2 hours
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Additional Content Row -->
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Project Management</h5>
+                                <div class="dropdown" data-controller="dropdown">
+                                    <button class="btn btn-outline-secondary btn-sm" data-action="click->dropdown#toggle">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" data-dropdown-target="menu">
+                                        <li><a class="dropdown-item" href="#">Export Data</a></li>
+                                        <li><a class="dropdown-item" href="#">Print Report</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="projectName" class="form-label">Project Name</label>
+                                        <input type="text" class="form-control" id="projectName" placeholder="Enter project name">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="projectStatus" class="form-label">Status</label>
+                                        <select class="form-control" id="projectStatus">
+                                            <option>Select status</option>
+                                            <option>Planning</option>
+                                            <option>In Progress</option>
+                                            <option>Completed</option>
+                                            <option>On Hold</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label for="projectDescription" class="form-label">Description</label>
+                                        <textarea class="form-control" id="projectDescription" rows="3" placeholder="Project description..."></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary me-2">Save Project</button>
+                                        <button class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Trigger for Modal (for testing) -->
+    <div data-controller="modal">
+        <button class="btn btn-info position-fixed" style="bottom: 20px; left: 20px; z-index: 1040;" data-action="click->modal#open">
+            Test Modal
+        </button>
+        
+        <!-- Modal moved inside the controller -->
+        <div class="modal fade" data-modal-target="modal" data-action="click->modal#backdropClick" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal Title</h5>
+                        <button type="button" class="btn-close" data-action="click->modal#close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This is a modal example using Stimulus.js controllers.</p>
+                        <form>
+                            <div class="mb-3">
+                                <label for="modalInput" class="form-label">Example Input</label>
+                                <input type="text" class="form-control" id="modalInput" placeholder="Enter text">
+                            </div>
+                            <div class="mb-3">
+                                <label for="modalSelect" class="form-label">Example Select</label>
+                                <select class="form-control" id="modalSelect">
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                    <option>Option 3</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-action="click->modal#close">Close</button>
+                        <button type="button" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Additional JavaScript for enhanced functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-hide alerts after 5 seconds
+            const alerts = document.querySelectorAll('.alert:not(.alert-permanent)');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.transition = 'opacity 0.5s ease';
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 500);
+                }, 5000);
+            });
+            
+            // Enhanced table row highlighting
+            const tableRows = document.querySelectorAll('tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    // Remove active class from all rows
+                    tableRows.forEach(r => r.classList.remove('table-active'));
+                    // Add active class to clicked row
+                    this.classList.add('table-active');
+                });
+            });
+            
+            // Search functionality simulation
+            const searchInput = document.querySelector('input[type="search"]');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    console.log('Searching for:', searchTerm);
+                    // Add your search logic here
+                });
+            }
+            
+            // Counter animation for stats cards
+            const animateCounters = () => {
+                const counters = document.querySelectorAll('.card-body h5');
+                counters.forEach(counter => {
+                    const text = counter.textContent;
+                    const match = text.match(/[\d,]+/);
+                    if (match) {
+                        const target = parseInt(match[0].replace(/,/g, ''));
+                        let current = 0;
+                        const increment = target / 50;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                counter.textContent = text;
+                                clearInterval(timer);
+                            } else {
+                                const formatted = Math.floor(current).toLocaleString();
+                                counter.textContent = text.replace(/[\d,]+/, formatted);
+                            }
+                        }, 30);
+                    }
+                });
+            };
+            
+            // Run counter animation on page load
+            setTimeout(animateCounters, 500);
+        });
+    </script>
+</body>
+</html>

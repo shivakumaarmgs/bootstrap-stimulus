@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Components - Admin Theme</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/@hotwired/stimulus/dist/stimulus.umd.js"></script>
+
+    <!-- Custom Admin Theme CSS -->
+    <style>
+    /* ===== MODERN ADMIN THEME CSS ===== */
+
+    :root {
+    /* Color Palette - Neutral & Professional */
+    --primary: #4f46e5;
+    --primary-light: #6366f1;
+    --primary-dark: #3730a3;
+    --secondary: #64748b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+
+    /* Neutral Grays */
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --gray-800: #1e293b;
+    --gray-900: #0f172a;
+
+    /* Layout */
+    --sidebar-width: 280px;
+    --topbar-height: 70px;
+    --border-radius: 8px;
+    --border-radius-lg: 12px;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    /* Typography */
+    --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Font Import */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    /* Base Styles */
+    body {
+    font-family: var(--font-family-sans);
+    background-color: var(--gray-50);
+    color: var(--gray-700);
+    line-height: 1.6;
+    }
+
+    /* Bootstrap Color Overrides */
+    .bg-primary { background-color: var(--primary) !important; }
+    .bg-secondary { background-color: var(--secondary) !important; }
+    .bg-success { background-color: var(--success) !important; }
+    .bg-danger { background-color: var(--danger) !important; }
+    .bg-warning { background-color: var(--warning) !important; }
+    .bg-info { background-color: var(--info) !important; }
+
+    .text-primary { color: var(--primary) !important; }
+    .text-secondary { color: var(--secondary) !important; }
+    .text-muted { color: var(--gray-500) !important; }
+
+    .border { border-color: var(--gray-200) !important; }
+    .border-primary { border-color: var(--primary) !important; }
+
+    /* Layout Structure */
+    .admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+    width: var(--sidebar-width);
+    background: white;
+    border-right: 1px solid var(--gray-200);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    z-index: 1030;
+    }
+
+    .sidebar.collapsed {
+    transform: translateX(-100%);
+    }
+
+    .sidebar-brand {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--gray-200);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--gray-900);
+    text-decoration: none;
+    }
+
+    .sidebar-nav {
+    padding: 1rem 0;
+    }
+
+    .sidebar-nav .nav-item {
+    margin-bottom: 0.25rem;
+    }
+
+    .sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    color: var(--gray-600);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-radius: 0;
+    border: none;
+    }
+
+    .sidebar-nav .nav-link:hover {
+    background-color: var(--gray-100);
+    color: var(--gray-900);
+    }
+
+    .sidebar-nav .nav-link.active {
+    background-color: var(--primary);
+    color: white;
+    font-weight: 500;
+    }
+
+    .sidebar-nav .nav-link i {
+    width: 20px;
+    text-align: center;
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+    }
+
+    /* Main Content */
+    .main-content {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    transition: margin-left 0.3s ease;
+    }
+
+    .main-content.sidebar-collapsed {
+    margin-left: 0;
+    }
+
+    /* Topbar */
+    .topbar {
+    background: white;
+    border-bottom: 1px solid var(--gray-200);
+    height: var(--topbar-height);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    }
+
+    .topbar .btn-link {
+    color: var(--gray-600);
+    border: none;
+    background: none;
+    padding: 0.5rem;
+    text-decoration: none;
+    }
+
+    .topbar .btn-link:hover {
+    color: var(--gray-900);
+    }
+
+    /* Content Area */
+    .content-area {
+    padding: 2rem;
+    }
+
+    /* Cards */
+    .card {
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1.5rem;
+    }
+
+    .card-header {
+    background-color: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    }
+
+    .card-body {
+    padding: 1.5rem;
+    }
+
+    /* Buttons */
+    .btn {
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: none;
+    transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+    background-color: var(--primary);
+    color: white;
+    }
+
+    .btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+    }
+
+    .btn-outline-primary {
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    background: transparent;
+    }
+
+    .btn-outline-primary:hover {
+    background-color: var(--primary);
+    color: white;
+    }
+
+    .btn-secondary {
+    background-color: var(--gray-600);
+    color: white;
+    }
+
+    .btn-secondary:hover {
+    background-color: var(--gray-700);
+    }
+
+    .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    }
+
+    .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    }
+
+    /* Forms */
+    .form-control {
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius);
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+    }
+
+    .form-label {
+    font-weight: 500;
+    color: var(--gray-700);
+    margin-bottom: 0.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 991.98px) {
+    .sidebar {
+    transform: translateX(-100%);
+    }
+
+    .sidebar.show {
+    transform: translateX(0);
+    }
+
+    .main-content {
+    margin-left: 0;
+    }
+
+    .content-area {
+    padding: 1rem;
+    }
+    }
+
+    /* Sidebar Overlay for Mobile */
+    .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1025;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    }
+
+    .sidebar-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    }
+
+    /* COMPONENT STYLES */
+
+    /* Datepicker Styles */
+    .datepicker-wrapper {
+    position: relative;
+    }
+
+    .datepicker-calendar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    }
+
+    .datepicker-calendar.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    }
+
+    .datepicker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+    }
+
+    .datepicker-nav-btn {
+    background: none;
+    border: none;
+    color: var(--gray-600);
+    font-size: 1.2rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    }
+
+    .datepicker-nav-btn:hover {
+    background-color: var(--gray-100);
+    color: var(--gray-900);
+    }
+
+    .datepicker-month-year {
+    font-weight: 600;
+    color: var(--gray-900);
+    }
+
+    .datepicker-grid {
+    padding: 1rem;
+    }
+
+    .datepicker-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 0.5rem;
+    }
+
+    .datepicker-weekday {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gray-500);
+    padding: 0.5rem;
+    }
+
+    .datepicker-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    }
+
+    .datepicker-day {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    text-align: center;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    color: var(--gray-700);
+    }
+
+    .datepicker-day:hover {
+    background-color: var(--gray-100);
+    }
+
+    .datepicker-day.today {
+    background-color: var(--primary);
+    color: white;
+    }
+
+    .datepicker-day.selected {
+    background-color: var(--primary-dark);
+    color: white;
+    }
+
+    .datepicker-day.other-month {
+    color: var(--gray-400);
+    }
+
+    .datepicker-day:disabled {
+    color: var(--gray-300);
+    cursor: not-allowed;
+    }
+
+    /* Switch Styles */
+    .form-switch-custom {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+    }
+
+    .form-switch-custom input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+
+    .switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--gray-300);
+    transition: 0.3s;
+    border-radius: 28px;
+    }
+
+    .switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-switch-custom input:checked + .switch-slider {
+    background-color: var(--primary);
+    }
+
+    .form-switch-custom input:checked + .switch-slider:before {
+    transform: translateX(22px);
+    }
+
+    .form-switch-custom input:disabled + .switch-slider {
+    opacity: 0.5;
+    cursor: not-allowed;
+    }
+
+    /* Different switch sizes */
+    .form-switch-sm {
+    width: 40px;
+    height: 22px;
+    }
+
+    .form-switch-sm .switch-slider:before {
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    }
+
+    .form-switch-sm input:checked + .switch-slider:before {
+    transform: translateX(18px);
+    }
+
+    .form-switch-lg {
+    width: 60px;
+    height: 34px;
+    }
+
+    .form-switch-lg .switch-slider:before {
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    }
+
+    .form-switch-lg input:checked + .switch-slider:before {
+    transform: translateX(26px);
+    }
+
+    /* Combo Box Styles */
+    .combobox-wrapper {
+    position: relative;
+    }
+
+    .combobox-input {
+    width: 100%;
+    padding-right: 2.5rem;
+    }
+
+    .combobox-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--gray-500);
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    }
+
+    .combobox-toggle:hover {
+    color: var(--gray-700);
+    }
+
+    .combobox-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    z-index: 1050;
+    max-height: 200px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    }
+
+    .combobox-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    }
+
+    .combobox-option {
+    padding: 0.75rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--gray-100);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    }
+
+    .combobox-option:last-child {
+    border-bottom: none;
+    }
+
+    .combobox-option:hover {
+    background-color: var(--gray-50);
+    }
+
+    .combobox-option.selected {
+    background-color: var(--primary);
+    color: white;
+    }
+
+    .combobox-option.highlighted {
+    background-color: var(--gray-100);
+    }
+
+    .combobox-no-results {
+    padding: 1rem;
+    text-align: center;
+    color: var(--gray-500);
+    font-style: italic;
+    }
+
+    /* Multi-select styles */
+    .combobox-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+    }
+
+    .combobox-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--border-radius);
+    font-size: 0.75rem;
+    gap: 0.25rem;
+    }
+
+    .combobox-tag-remove {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 0.875rem;
+    padding: 0;
+    margin-left: 0.25rem;
+    }
+
+    .combobox-tag-remove:hover {
+    opacity: 0.8;
+    }
+
+    /* Utilities */
+    .text-xs { font-size: 0.75rem; }
+    .text-sm { font-size: 0.875rem; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    </style>
+
+    <!-- Stimulus.js -->
+    <script type="module">
+    import { Application } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+
+    const application = Application.start()
+
+    // Sidebar Toggle Controller
+    application.register("sidebar", class extends Stimulus.Controller {
+      static targets = ["sidebar", "overlay", "content"]
+
+      toggle() {
+        const isMobile = window.innerWidth < 992
+
+        if (isMobile) {
+          this.toggleMobile()
+        } else {
+          this.toggleDesktop()
+        }
+      }
+
+      toggleMobile() {
+        this.sidebarTarget.classList.toggle("show")
+        this.overlayTarget.classList.toggle("show")
+      }
+
+      toggleDesktop() {
+        this.sidebarTarget.classList.toggle("collapsed")
+        this.contentTarget.classList.toggle("sidebar-collapsed")
+      }
+
+      closeMobile() {
+        this.sidebarTarget.classList.remove("show")
+        this.overlayTarget.classList.remove("show")
+      }
+    })
+
+    // Datepicker Controller
+    application.register("datepicker", class extends Stimulus.Controller {
+      static targets = ["input", "calendar", "monthYear", "daysGrid"]
+      static values = { 
+        format: { type: String, default: "yyyy-mm-dd" },
+        minDate: String,
+        maxDate: String
+      }
+
+      connect() {
+        this.currentDate = new Date()
+        this.selectedDate = null
+        this.monthNames = [
+          "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ]
+        this.weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+        this.renderCalendar()
+        this.setupEventListeners()
+      }
+
+      setupEventListeners() {
+        document.addEventListener('click', (e) => {
+          if (!this.element.contains(e.target)) {
+            this.close()
+          }
+        })
+      }
+
+      toggle() {
+        if (this.calendarTarget.classList.contains('show')) {
+          this.close()
+        } else {
+          this.open()
+        }
+      }
+
+      open() {
+        this.calendarTarget.classList.add('show')
+        this.renderCalendar()
+      }
+
+      close() {
+        this.calendarTarget.classList.remove('show')
+      }
+
+      previousMonth() {
+        this.currentDate.setMonth(this.currentDate.getMonth() - 1)
+        this.renderCalendar()
+      }
+
+      nextMonth() {
+        this.currentDate.setMonth(this.currentDate.getMonth() + 1)
+        this.renderCalendar()
+      }
+
+      selectDate(event) {
+        const day = parseInt(event.target.dataset.day)
+        const month = parseInt(event.target.dataset.month)
+        const year = parseInt(event.target.dataset.year)
+
+        this.selectedDate = new Date(year, month, day)
+        this.inputTarget.value = this.formatDate(this.selectedDate)
+        this.renderCalendar()
+        this.close()
+
+        // Dispatch custom event
+        this.element.dispatchEvent(new CustomEvent('datepicker:change', {
+          detail: { date: this.selectedDate }
+        }))
+      }
+
+      renderCalendar() {
+        const year = this.currentDate.getFullYear()
+        const month = this.currentDate.getMonth()
+
+        // Update month/year header
+        this.monthYearTarget.textContent = `${this.monthNames[month]} ${year}`
+
+        // Clear days grid
+        this.daysGridTarget.innerHTML = ''
+
+        // Add weekday headers
+        const weekdaysRow = document.createElement('div')
+        weekdaysRow.className = 'datepicker-weekdays'
+        this.weekdays.forEach(day => {
+          const dayHeader = document.createElement('div')
+          dayHeader.className = 'datepicker-weekday'
+          dayHeader.textContent = day
+          weekdaysRow.appendChild(dayHeader)
+        })
+        this.daysGridTarget.appendChild(weekdaysRow)
+
+        // Create days grid
+        const daysContainer = document.createElement('div')
+        daysContainer.className = 'datepicker-days'
+
+        // Get first day of month and number of days
+        const firstDay = new Date(year, month, 1).getDay()
+        const daysInMonth = new Date(year, month + 1, 0).getDate()
+        const daysInPrevMonth = new Date(year, month, 0).getDate()
+
+        // Add previous month's trailing days
+        for (let i = firstDay - 1; i >= 0; i--) {
+          const day = daysInPrevMonth - i
+          const dayButton = this.createDayButton(day, month - 1, year, true)
+          daysContainer.appendChild(dayButton)
+        }
+
+        // Add current month's days
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dayButton = this.createDayButton(day, month, year, false)
+          daysContainer.appendChild(dayButton)
+        }
+
+        // Add next month's leading days
+        const totalCells = daysContainer.children.length
+        const remainingCells = 42 - totalCells // 6 rows × 7 days
+        for (let day = 1; day <= remainingCells; day++) {
+          const dayButton = this.createDayButton(day, month + 1, year, true)
+          daysContainer.appendChild(dayButton)
+        }
+
+        this.daysGridTarget.appendChild(daysContainer)
+      }
+
+      createDayButton(day, month, year, isOtherMonth) {
+        const button = document.createElement('button')
+        button.className = 'datepicker-day'
+        button.textContent = day
+        button.dataset.day = day
+        button.dataset.month = month
+        button.dataset.year = year
+        button.addEventListener('click', this.selectDate.bind(this))
+
+        if (isOtherMonth) {
+          button.classList.add('other-month')
+        }
+
+        // Check if this is today
+        const today = new Date()
+        if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate() && !isOtherMonth) {
+          button.classList.add('today')
+        }
+
+        // Check if this is selected date
+        if (this.selectedDate && 
+          year === this.selectedDate.getFullYear() && 
+          month === this.selectedDate.getMonth() && 
+          day === this.selectedDate.getDate() && 
+          !isOtherMonth) {
+          button.classList.add('selected')
+        }
+
+        return button
+      }
+
+      formatDate(date) {
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+
+        switch (this.formatValue) {
+          case 'dd/mm/yyyy':
+            return `${day}/${month}/${year}`
+          case 'mm/dd/yyyy':
+            return `${month}/${day}/${year}`
+          case 'dd-mm-yyyy':
+            return `${day}-${month}-${year}`
+          default:
+            return `${year}-${month}-${day}`
+        }
+      }
+    })
+
+    // Switch Controller
+    application.register("switch", class extends Stimulus.Controller {
+      static targets = ["input"]
+      static values = { disabled: Boolean }
+
+      toggle() {
+        if (this.disabledValue) return
+
+        this.inputTarget.checked = !this.inputTarget.checked
+        this.onChange()
+      }
+
+      onChange() {
+        // Dispatch custom event
+        this.element.dispatchEvent(new CustomEvent('switch:change', {
+          detail: { 
+            checked: this.inputTarget.checked,
+            value: this.inputTarget.value
+          }
+        }))
+      }
+    })
+
+    // Combobox Controller
+    application.register("combobox", class extends Stimulus.Controller {
+      static targets = ["input", "dropdown", "option", "tagsContainer"]
+      static values = { 
+        multiple: { type: Boolean, default: false },
+        placeholder: { type: String, default: "Select an option..." }
+      }
+
+      connect() {
+        this.selectedOptions = new Set()
+        this.highlightedIndex = -1
+        this.options = []
+        this.filteredOptions = []
+
+        this.setupOptions()
+        this.setupEventListeners()
+
+        if (this.multipleValue) {
+          this.renderSelectedTags()
+        }
+      }
+
+      setupOptions() {
+        this.options = Array.from(this.optionTargets).map(option => ({
+          value: option.dataset.value,
+          text: option.textContent.trim(),
+          element: option
+        }))
+        this.filteredOptions = [...this.options]
+      }
+
+      setupEventListeners() {
+        document.addEventListener('click', (e) => {
+          if (!this.element.contains(e.target)) {
+            this.close()
+          }
+        })
+
+        this.inputTarget.addEventListener('keydown', this.handleKeydown.bind(this))
+      }
+
+      handleKeydown(event) {
+        switch (event.key) {
+          case 'ArrowDown':
+            event.preventDefault()
+            this.highlightNext()
+            break
+          case 'ArrowUp':
+            event.preventDefault()
+            this.highlightPrevious()
+            break
+          case 'Enter':
+            event.preventDefault()
+            if (this.highlightedIndex >= 0) {
+              this.selectOption(this.filteredOptions[this.highlightedIndex])
+            }
+            break
+          case 'Escape':
+            this.close()
+            break
+        }
+      }
+
+      toggle() {
+        if (this.dropdownTarget.classList.contains('show')) {
+          this.close()
+        } else {
+          this.open()
+        }
+      }
+
+      open() {
+        this.dropdownTarget.classList.add('show')
+        this.filterOptions()
+        this.highlightedIndex = -1
+      }
+
+      close() {
+        this.dropdownTarget.classList.remove('show')
+        this.highlightedIndex = -1
+      }
+
+      filterOptions() {
+        const query = this.inputTarget.value.toLowerCase()
+        this.filteredOptions = this.options.filter(option => 
+          option.text.toLowerCase().includes(query)
+        )
+        this.renderOptions()
+      }
+
+      renderOptions() {
+        const container = this.dropdownTarget
+        container.innerHTML = ''
+
+        if (this.filteredOptions.length === 0) {
+          const noResults = document.createElement('div')
+          noResults.className = 'combobox-no-results'
+          noResults.textContent = 'No results found'
+          container.appendChild(noResults)
+          return
+        }
+
+        this.filteredOptions.forEach((option, index) => {
+          const optionElement = document.createElement('div')
+          optionElement.className = 'combobox-option'
+          optionElement.textContent = option.text
+          optionElement.dataset.value = option.value
+          optionElement.dataset.index = index
+
+          if (this.selectedOptions.has(option.value)) {
+            optionElement.classList.add('selected')
+          }
+
+          optionElement.addEventListener('click', () => this.selectOption(option))
+          container.appendChild(optionElement)
+        })
+      }
+
+      selectOption(option) {
+        if (this.multipleValue) {
+          if (this.selectedOptions.has(option.value)) {
+            this.selectedOptions.delete(option.value)
+          } else {
+            this.selectedOptions.add(option.value)
+          }
+          this.renderSelectedTags()
+          this.inputTarget.value = ''
+        } else {
+          this.selectedOptions.clear()
+          this.selectedOptions.add(option.value)
+          this.inputTarget.value = option.text
+          this.close()
+        }
+
+        this.renderOptions()
+        this.dispatchChangeEvent()
+      }
+
+      removeTag(value) {
+        this.selectedOptions.delete(value)
+        this.renderSelectedTags()
+        this.renderOptions()
+        this.dispatchChangeEvent()
+      }
+
+      renderSelectedTags() {
+        if (!this.hasTagsContainerTarget) return
+
+        this.tagsContainerTarget.innerHTML = ''
+
+        this.selectedOptions.forEach(value => {
+          const option = this.options.find(opt => opt.value === value)
+          if (option) {
+            const tag = document.createElement('span')
+            tag.className = 'combobox-tag'
+            tag.innerHTML = `
+${option.text}
+<button type="button" class="combobox-tag-remove" data-action="click->combobox#removeTagClick" data-value="${value}">×</button>
+`
+            this.tagsContainerTarget.appendChild(tag)
+          }
+        })
+      }
+
+      removeTagClick(event) {
+        const value = event.target.dataset.value
+        this.removeTag(value)
+      }
+
+      highlightNext() {
+        if (this.highlightedIndex < this.filteredOptions.length - 1) {
+          this.highlightedIndex++
+          this.updateHighlight()
+        }
+      }
+
+      highlightPrevious() {
+        if (this.highlightedIndex > 0) {
+          this.highlightedIndex--
+          this.updateHighlight()
+        }
+      }
+
+      updateHighlight() {
+        const options = this.dropdownTarget.querySelectorAll('.combobox-option')
+        options.forEach((option, index) => {
+          option.classList.toggle('highlighted', index === this.highlightedIndex)
+        })
+      }
+
+      dispatchChangeEvent() {
+        const selectedValues = Array.from(this.selectedOptions)
+        this.element.dispatchEvent(new CustomEvent('combobox:change', {
+          detail: { 
+            values: selectedValues,
+            multiple: this.multipleValue
+          }
+        }))
+      }
+    })
+
+    // Make application globally available
+    window.Stimulus = application
+    </script>
+  </head>
+  <body>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" data-sidebar-target="overlay" data-action="click->sidebar#closeMobile"></div>
+
+    <div class="admin-wrapper" data-controller="sidebar">
+      <!-- Sidebar -->
+      <nav class="sidebar" data-sidebar-target="sidebar">
+        <a href="#" class="sidebar-brand">
+          <i class="bi bi-calendar3 me-2"></i>
+          Advanced Components
+        </a>
+
+        <ul class="sidebar-nav nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="#datepicker">
+              <i class="bi bi-calendar-date"></i>
+              Datepicker
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#switches">
+              <i class="bi bi-toggle-on"></i>
+              Switches
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#combobox">
+              <i class="bi bi-menu-button-wide"></i>
+              Combo Box
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content" data-sidebar-target="content">
+        <!-- Topbar -->
+        <header class="topbar">
+          <button class="btn btn-link d-lg-none" data-action="click->sidebar#toggle">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+
+          <button class="btn btn-link d-none d-lg-block" data-action="click->sidebar#toggle">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+
+          <div class="ms-auto">
+            <h5 class="mb-0">Advanced Components Showcase</h5>
+          </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content-area">
+          <!-- Datepicker Section -->
+          <section id="datepicker" class="mb-5">
+            <h2 class="h3 mb-4">Datepicker Component</h2>
+
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Interactive Datepickers</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="mb-4">
+                          <label class="form-label">Basic Datepicker</label>
+                          <div class="datepicker-wrapper" data-controller="datepicker">
+                            <input type="text" class="form-control" data-datepicker-target="input" data-action="click->datepicker#toggle" placeholder="Select date..." readonly>
+                            <div class="datepicker-calendar" data-datepicker-target="calendar">
+                              <div class="datepicker-header">
+                                <button type="button" class="datepicker-nav-btn" data-action="click->datepicker#previousMonth">
+                                  <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <div class="datepicker-month-year" data-datepicker-target="monthYear"></div>
+                                <button type="button" class="datepicker-nav-btn" data-action="click->datepicker#nextMonth">
+                                  <i class="bi bi-chevron-right"></i>
+                                </button>
+                              </div>
+                              <div class="datepicker-grid" data-datepicker-target="daysGrid"></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4">
+                          <label class="form-label">US Format (MM/DD/YYYY)</label>
+                          <div class="datepicker-wrapper" data-controller="datepicker" data-datepicker-format-value="mm/dd/yyyy">
+                            <input type="text" class="form-control" data-datepicker-target="input" data-action="click->datepicker#toggle" placeholder="Select date..." readonly>
+                            <div class="datepicker-calendar" data-datepicker-target="calendar">
+                              <div class="datepicker-header">
+                                <button type="button" class="datepicker-nav-btn" data-action="click->datepicker#previousMonth">
+                                  <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <div class="datepicker-month-year" data-datepicker-target="monthYear"></div>
+                                <button type="button" class="datepicker-nav-btn" data-action="click->datepicker#nextMonth">
+                                  <i class="bi bi-chevron-right"></i>
+                                </button>
+                              </div>
+                              <div class="datepicker-grid" data-datepicker-target="daysGrid"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="mb-4">
+                          <label class="form-label">EU Format (DD/MM/YYYY)</label>
+                          <div class="datepicker-wrapper" data-controller="datepicker" data-datepicker-format-value="dd/mm/yyyy">
+                            <input type="text" class="form-control" data-datepicker-target="input" data-action="click->datepicker#toggle" placeholder="Select date..." readonly>
+                            <div class="datepicker-calendar" data-datepicker-target="calendar">
+                              <div class="datepicker-header">
+                                <button type="button" class="datepicker-nav-btn" data-action="click->datepicker#previousMonth">
+                                  <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <div class="datepicker-month-year" data-datepicker-target="monthYear"></div>
+                                <button type="button" class="datepicker-nav-btn" data-action="click->datepicker#nextMonth">
+                                  <i class="bi bi-chevron-right"></i>
+                                </button>
+                              </div>
+                              <div class="datepicker-grid" data-datepicker-target="daysGrid"></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4">
+                          <label class="form-label">With Icon Trigger</label>
+                          <div class="input-group datepicker-wrapper" data-controller="datepicker">
+                            <input type="text" class="form-control" data-datepicker-target="input" placeholder="Select date..." readonly>
+                            <button class="btn btn-outline-secondary" type="button" data-action="click->datepicker#toggle">
+                              <i class="bi bi-calendar3"></i>
+                            </button>
+                            <div class="datepicker-calendar" data-datepicker-target="calendar">
+                              <div class="datepicker-header">
+                                <button type="button" class="datepicker-nav-btn" data-action="click->datepicker#previousMonth">
+                                  <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <div class="datepicker-month-year" data-datepicker-target="monthYear"></div>
+                                <button type="button" class="datepicker-nav-btn" data-action="click->datepicker#nextMonth">
+                                  <i class="bi bi-chevron-right"></i>
+                                </button>
+                              </div>
+                              <div class="datepicker-grid" data-datepicker-target="daysGrid"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Datepicker Features</h5>
+                  </div>
+                  <div class="card-body">
+                    <ul class="list-unstyled">
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Multiple Formats:</strong> ISO, US, EU date formats
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Keyboard Navigation:</strong> Arrow keys support
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Today Highlight:</strong> Current date highlighted
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Click Outside:</strong> Auto-close functionality
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Custom Events:</strong> Change event dispatching
+                      </li>
+                      <li class="mb-0">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Responsive:</strong> Mobile-friendly design
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Switches Section -->
+          <section id="switches" class="mb-5">
+            <h2 class="h3 mb-4">Switch Components</h2>
+
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Custom Switch Controls</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <h6>Standard Switches</h6>
+
+                        <div class="mb-3">
+                          <div class="d-flex align-items-center">
+                            <div class="form-switch-custom" data-controller="switch">
+                              <input type="checkbox" data-switch-target="input" data-action="change->switch#onChange" checked>
+                              <span class="switch-slider" data-action="click->switch#toggle"></span>
+                            </div>
+                            <label class="ms-3 mb-0">Enable notifications</label>
+                          </div>
+                        </div>
+
+                        <div class="mb-3">
+                          <div class="d-flex align-items-center">
+                            <div class="form-switch-custom" data-controller="switch">
+                              <input type="checkbox" data-switch-target="input" data-action="change->switch#onChange">
+                              <span class="switch-slider" data-action="click->switch#toggle"></span>
+                            </div>
+                            <label class="ms-3 mb-0">Auto-save drafts</label>
+                          </div>
+                        </div>
+
+                        <div class="mb-3">
+                          <div class="d-flex align-items-center">
+                            <div class="form-switch-custom" data-controller="switch" data-switch-disabled-value="true">
+                              <input type="checkbox" data-switch-target="input" disabled>
+                              <span class="switch-slider"></span>
+                            </div>
+                            <label class="ms-3 mb-0 text-muted">Disabled switch</label>
+                          </div>
+                        </div>
+
+                        <h6 class="mt-4">Different Sizes</h6>
+
+                        <div class="mb-3">
+                          <div class="d-flex align-items-center">
+                            <div class="form-switch-custom form-switch-sm" data-controller="switch">
+                              <input type="checkbox" data-switch-target="input" data-action="change->switch#onChange" checked>
+                              <span class="switch-slider" data-action="click->switch#toggle"></span>
+                            </div>
+                            <label class="ms-3 mb-0">Small switch</label>
+                          </div>
+                        </div>
+
+                        <div class="mb-3">
+                          <div class="d-flex align-items-center">
+                            <div class="form-switch-custom form-switch-lg" data-controller="switch">
+                              <input type="checkbox" data-switch-target="input" data-action="change->switch#onChange">
+                              <span class="switch-slider" data-action="click->switch#toggle"></span>
+                            </div>
+                            <label class="ms-3 mb-0">Large switch</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <h6>Settings Panel Example</h6>
+                        <div class="bg-light p-3 rounded">
+                          <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <div>
+                                <strong>Dark Mode</strong>
+                                <br><small class="text-muted">Enable dark theme</small>
+                              </div>
+                              <div class="form-switch-custom" data-controller="switch">
+                                <input type="checkbox" data-switch-target="input" data-action="change->switch#onChange">
+                                <span class="switch-slider" data-action="click->switch#toggle"></span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <div>
+                                <strong>Email Notifications</strong>
+                                <br><small class="text-muted">Receive email updates</small>
+                              </div>
+                              <div class="form-switch-custom" data-controller="switch">
+                                <input type="checkbox" data-switch-target="input" data-action="change->switch#onChange" checked>
+                                <span class="switch-slider" data-action="click->switch#toggle"></span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <div>
+                                <strong>Two-Factor Auth</strong>
+                                <br><small class="text-muted">Extra security layer</small>
+                              </div>
+                              <div class="form-switch-custom" data-controller="switch">
+                                <input type="checkbox" data-switch-target="input" data-action="change->switch#onChange" checked>
+                                <span class="switch-slider" data-action="click->switch#toggle"></span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="mb-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <div>
+                                <strong>Location Services</strong>
+                                <br><small class="text-muted">Share location data</small>
+                              </div>
+                              <div class="form-switch-custom" data-controller="switch">
+                                <input type="checkbox" data-switch-target="input" data-action="change->switch#onChange">
+                                <span class="switch-slider" data-action="click->switch#toggle"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Switch Features</h5>
+                  </div>
+                  <div class="card-body">
+                    <ul class="list-unstyled">
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Smooth Animation:</strong> CSS transitions
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Multiple Sizes:</strong> Small, normal, large
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Disabled State:</strong> Non-interactive mode
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Custom Events:</strong> Change event handling
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Accessible:</strong> Proper form integration
+                      </li>
+                      <li class="mb-0">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Themeable:</strong> Easy color customization
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Event Output</h5>
+                  </div>
+                  <div class="card-body">
+                    <div id="switchOutput" class="bg-light p-3 rounded text-sm">
+                      <em>Switch events will appear here...</em>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Combo Box Section -->
+          <section id="combobox" class="mb-5">
+            <h2 class="h3 mb-4">Combo Box Components</h2>
+
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Advanced Combo Boxes</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="mb-4">
+                          <label class="form-label">Single Select Combo Box</label>
+                          <div class="combobox-wrapper" data-controller="combobox">
+                            <input type="text" class="form-control combobox-input" data-combobox-target="input" data-action="input->combobox#filterOptions click->combobox#open" placeholder="Search countries...">
+                            <button type="button" class="combobox-toggle" data-action="click->combobox#toggle">
+                              <i class="bi bi-chevron-down"></i>
+                            </button>
+                            <div class="combobox-dropdown" data-combobox-target="dropdown">
+                              <div class="combobox-option" data-combobox-target="option" data-value="sql">SQL</div>
+                              <div class="combobox-option" data-combobox-target="option" data-value="php">PHP</div>
+                              <div class="combobox-option" data-combobox-target="option" data-value="java">Java</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4">
+                          <label class="form-label">Priority Level</label>
+                          <div class="combobox-wrapper" data-controller="combobox">
+                            <input type="text" class="form-control combobox-input" data-combobox-target="input" data-action="input->combobox#filterOptions click->combobox#open" placeholder="Select priority..." readonly>
+                            <button type="button" class="combobox-toggle" data-action="click->combobox#toggle">
+                              <i class="bi bi-chevron-down"></i>
+                            </button>
+                            <div class="combobox-dropdown" data-combobox-target="dropdown">
+                              <div class="combobox-option" data-combobox-target="option" data-value="critical">
+                                <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Critical
+                              </div>
+                              <div class="combobox-option" data-combobox-target="option" data-value="high">
+                                <i class="bi bi-arrow-up-circle-fill text-warning me-2"></i>High
+                              </div>
+                              <div class="combobox-option" data-combobox-target="option" data-value="medium">
+                                <i class="bi bi-dash-circle-fill text-info me-2"></i>Medium
+                              </div>
+                              <div class="combobox-option" data-combobox-target="option" data-value="low">
+                                <i class="bi bi-arrow-down-circle-fill text-success me-2"></i>Low
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Combo Box Features</h5>
+                  </div>
+                  <div class="card-body">
+                    <ul class="list-unstyled">
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Search/Filter:</strong> Real-time filtering
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Multi-Select:</strong> Tag-based selection
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Keyboard Nav:</strong> Arrow keys & Enter
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Rich Content:</strong> Icons & custom HTML
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Custom Events:</strong> Selection events
+                      </li>
+                      <li class="mb-0">
+                        <i class="bi bi-check-circle text-success me-2"></i>
+                        <strong>Responsive:</strong> Mobile optimized
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Selection Output</h5>
+                  </div>
+                  <div class="card-body">
+                    <div id="comboboxOutput" class="bg-light p-3 rounded text-sm">
+                      <em>Selection events will appear here...</em>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Code Examples Section -->
+          <section id="code-examples" class="mb-5">
+            <h2 class="h3 mb-4">Code Examples</h2>
+
+            <div class="row">
+              <div class="col-lg-4 mb-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Datepicker HTML</h5>
+                  </div>
+                  <div class="card-body">
+                    <pre class="bg-light p-3 rounded text-xs"><code>&lt;div class="datepicker-wrapper" 
+                      data-controller="datepicker"
+                      data-datepicker-format-value="dd/mm/yyyy"&gt;
+                      &lt;input type="text" class="form-control" 
+                      data-datepicker-target="input" 
+                      data-action="click->datepicker#toggle" 
+                      placeholder="Select date..." readonly&gt;
+                      &lt;div class="datepicker-calendar" 
+                      data-datepicker-target="calendar"&gt;
+                      &lt;div class="datepicker-header"&gt;
+                      &lt;button data-action="click->datepicker#previousMonth"&gt;
+                      &lt;i class="bi bi-chevron-left">&lt;/i&gt;
+                      &lt;/button&gt;
+                      &lt;div data-datepicker-target="monthYear">&lt;/div&gt;
+                      &lt;button data-action="click->datepicker#nextMonth"&gt;
+                      &lt;i class="bi bi-chevron-right">&lt;/i&gt;
+                      &lt;/button&gt;
+                      &lt;/div&gt;
+                      &lt;div data-datepicker-target="daysGrid">&lt;/div&gt;
+                      &lt;/div&gt;
+                      &lt;/div&gt;</code></pre>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Switch HTML</h5>
+                  </div>
+                  <div class="card-body">
+                    <pre class="bg-light p-3 rounded text-xs"><code>&lt;div class="form-switch-custom" 
+                      data-controller="switch"&gt;
+                      &lt;input type="checkbox" 
+                      data-switch-target="input" 
+                      data-action="change->switch#onChange"&gt;
+                      &lt;span class="switch-slider" 
+                      data-action="click->switch#toggle">&lt;/span&gt;
+                      &lt;/div&gt;
+
+                      &lt;!-- Different sizes --&gt;
+                      &lt;div class="form-switch-custom form-switch-sm"&gt;
+                      &lt;div class="form-switch-custom form-switch-lg"&gt;
+
+                      &lt;!-- Disabled state --&gt;
+                      &lt;div class="form-switch-custom" 
+                      data-switch-disabled-value="true"&gt;
+                      &lt;input type="checkbox" disabled&gt;
+                      &lt;span class="switch-slider">&lt;/span&gt;
+                      &lt;/div&gt;</code></pre>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">Combo Box HTML</h5>
+                  </div>
+                  <div class="card-body">
+                    <pre class="bg-light p-3 rounded text-xs"><code>&lt;div class="combobox-wrapper" 
+                      data-controller="combobox"
+                      data-combobox-multiple-value="true"&gt;
+                      &lt;div class="combobox-tags" 
+                      data-combobox-target="tagsContainer">&lt;/div&gt;
+                      &lt;input type="text" class="form-control" 
+                      data-combobox-target="input" 
+                      data-action="input->combobox#filterOptions 
+                      click->combobox#open"&gt;
+                      &lt;button class="combobox-toggle" 
+                      data-action="click->combobox#toggle"&gt;
+                      &lt;i class="bi bi-chevron-down">&lt;/i&gt;
+                      &lt;/button&gt;
+                      &lt;div class="combobox-dropdown" 
+                      data-combobox-target="dropdown"&gt;
+                      &lt;div class="combobox-option" 
+                      data-combobox-target="option" 
+                      data-value="option1"&gt;Option 1&lt;/div&gt;
+                      &lt;/div&gt;
+                      &lt;/div&gt;</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">JavaScript Event Handling</h5>
+                  </div>
+                  <div class="card-body">
+                    <pre class="bg-light p-3 rounded text-sm"><code>// Listen for datepicker changes
+                      document.addEventListener('datepicker:change', (event) => {
+                      console.log('Date selected:', event.detail.date);
+                      });
+
+                      // Listen for switch changes
+                      document.addEventListener('switch:change', (event) => {
+                      console.log('Switch toggled:', event.detail.checked, event.detail.value);
+                      });
+
+                      // Listen for combobox changes
+                      document.addEventListener('combobox:change', (event) => {
+                      console.log('Selection changed:', event.detail.values, event.detail.multiple);
+                      });
+
+                      // Programmatic control examples
+                      const datepicker = document.querySelector('[data-controller="datepicker"]');
+                      datepicker.dispatchEvent(new CustomEvent('datepicker:open'));
+
+                      const switchElement = document.querySelector('[data-controller="switch"]');
+                      switchElement.querySelector('input').checked = true;
+                      switchElement.dispatchEvent(new CustomEvent('switch:change'));
+
+                      const combobox = document.querySelector('[data-controller="combobox"]');
+                      // Access controller via Stimulus application if needed</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+    // Event listeners for demonstration
+    document.addEventListener('DOMContentLoaded', function() {
+      const switchOutput = document.getElementById('switchOutput');
+      const comboboxOutput = document.getElementById('comboboxOutput');
+
+      // Listen for switch events
+      document.addEventListener('switch:change', function(event) {
+        const timestamp = new Date().toLocaleTimeString();
+        switchOutput.innerHTML = `
+<div class="mb-2">
+<strong>${timestamp}:</strong> Switch ${event.detail.checked ? 'ON' : 'OFF'}
+${event.detail.value ? ` (Value: ${event.detail.value})` : ''}
+</div>
+` + switchOutput.innerHTML;
+      });
+
+      // Listen for combobox events
+      document.addEventListener('combobox:change', function(event) {
+        const timestamp = new Date().toLocaleTimeString();
+        const values = event.detail.values;
+        const isMultiple = event.detail.multiple;
+
+        comboboxOutput.innerHTML = `
+<div class="mb-2">
+<strong>${timestamp}:</strong> ${isMultiple ? 'Multi-select' : 'Single select'}
+<br><small>Selected: ${values.length > 0 ? values.join(', ') : 'None'}</small>
+</div>
+` + comboboxOutput.innerHTML;
+      });
+
+      // Listen for datepicker events
+      document.addEventListener('datepicker:change', function(event) {
+        console.log('Date selected:', event.detail.date);
+      });
+
+      // Limit output history to last 5 events
+      function limitOutput(element) {
+        const children = element.children;
+        while (children.length > 5) {
+          element.removeChild(children[children.length - 1]);
+        }
+      }
+
+      // Clean up outputs periodically
+      setInterval(() => {
+        limitOutput(switchOutput);
+        limitOutput(comboboxOutput);
+      }, 5000);
+    });
+    </script>
+  </body>
+</html> data-combobox-target="option" data-value="us">United States</div>
+<div class="combobox-option" data-combobox-target="option" data-value="ca">Canada</div>
+<div class="combobox-option" data-combobox-target="option" data-value="uk">United Kingdom</div>
+<div class="combobox-option" data-combobox-target="option" data-value="au">Australia</div>
+<div class="combobox-option" data-combobox-target="option" data-value="de">Germany</div>
+<div class="combobox-option" data-combobox-target="option" data-value="fr">France</div>
+<div class="combobox-option" data-combobox-target="option" data-value="jp">Japan</div>
+<div class="combobox-option" data-combobox-target="option" data-value="br">Brazil</div>
+<div class="combobox-option" data-combobox-target="option" data-value="in">India</div>
+<div class="combobox-option" data-combobox-target="option" data-value="cn">China</div>
+</div>
+</div>
+</div>
+
+<div class="mb-4">
+  <label class="form-label">Department Selection</label>
+  <div class="combobox-wrapper" data-controller="combobox">
+    <input type="text" class="form-control combobox-input" data-combobox-target="input" data-action="input->combobox#filterOptions click->combobox#open" placeholder="Select department...">
+    <button type="button" class="combobox-toggle" data-action="click->combobox#toggle">
+      <i class="bi bi-chevron-down"></i>
+    </button>
+    <div class="combobox-dropdown" data-combobox-target="dropdown">
+      <div class="combobox-option" data-combobox-target="option" data-value="engineering">Engineering</div>
+      <div class="combobox-option" data-combobox-target="option" data-value="marketing">Marketing</div>
+      <div class="combobox-option" data-combobox-target="option" data-value="sales">Sales</div>
+      <div class="combobox-option" data-combobox-target="option" data-value="hr">Human Resources</div>
+      <div class="combobox-option" data-combobox-target="option" data-value="finance">Finance</div>
+      <div class="combobox-option" data-combobox-target="option" data-value="operations">Operations</div>
+      <div class="combobox-option" data-combobox-target="option" data-value="support">Customer Support</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="mb-4">
+<label class="form-label">Multi-Select Tags</label>
+<div class="combobox-wrapper" data-controller="combobox" data-combobox-multiple-value="true">
+<div class="combobox-tags" data-combobox-target="tagsContainer"></div>
+<input type="text" class="form-control combobox-input" data-combobox-target="input" data-action="input->combobox#filterOptions click->combobox#open" placeholder="Add skills...">
+<button type="button" class="combobox-toggle" data-action="click->combobox#toggle">
+  <i class="bi bi-chevron-down"></i>
+</button>
+<div class="combobox-dropdown" data-combobox-target="dropdown">
+<div class="combobox-option" data-combobox-target="option" data-value="javascript">JavaScript</div>
+<div class="combobox-option" data-combobox-target="option" data-value="python">Python</div>
+<div class="combobox-option" data-combobox-target="option" data-value="react">React</div>
+<div class="combobox-option" data-combobox-target="option" data-value="vue">Vue.js</div>
+<div class="combobox-option" data-combobox-target="option" data-value="nodejs">Node.js</div>
+<div class="combobox-option" data-combobox-target="option" data-value="css">CSS</div>
+<div class="combobox-option" data-combobox-target="option" data-value="html">HTML</div>
+<div class="combobox-option"

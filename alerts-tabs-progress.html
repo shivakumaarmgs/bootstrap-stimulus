@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Components - Admin Theme</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/@hotwired/stimulus/dist/stimulus.umd.js"></script>
+    
+    <!-- Custom Admin Theme CSS -->
+    <style>
+        /* ===== MODERN ADMIN THEME CSS ===== */
+        
+        :root {
+            /* Color Palette - Neutral & Professional */
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #3730a3;
+            --secondary: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            
+            /* Neutral Grays */
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            
+            /* Layout */
+            --sidebar-width: 280px;
+            --topbar-height: 70px;
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            
+            /* Typography */
+            --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        /* Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        /* Base Styles */
+        body {
+            font-family: var(--font-family-sans);
+            background-color: var(--gray-50);
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+        
+        /* Bootstrap Color Overrides */
+        .bg-primary { background-color: var(--primary) !important; }
+        .bg-secondary { background-color: var(--secondary) !important; }
+        .bg-success { background-color: var(--success) !important; }
+        .bg-danger { background-color: var(--danger) !important; }
+        .bg-warning { background-color: var(--warning) !important; }
+        .bg-info { background-color: var(--info) !important; }
+        
+        .text-primary { color: var(--primary) !important; }
+        .text-secondary { color: var(--secondary) !important; }
+        .text-muted { color: var(--gray-500) !important; }
+        
+        .border { border-color: var(--gray-200) !important; }
+        .border-primary { border-color: var(--primary) !important; }
+        
+        /* Layout Structure */
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1030;
+        }
+        
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+        
+        .sidebar-brand {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+        
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        
+        .sidebar-nav .nav-item {
+            margin-bottom: 0.25rem;
+        }
+        
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-radius: 0;
+            border: none;
+        }
+        
+        .sidebar-nav .nav-link:hover {
+            background-color: var(--gray-100);
+            color: var(--gray-900);
+        }
+        
+        .sidebar-nav .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .sidebar-nav .nav-link i {
+            width: 20px;
+            text-align: center;
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-content.sidebar-collapsed {
+            margin-left: 0;
+        }
+        
+        /* Topbar */
+        .topbar {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            height: var(--topbar-height);
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1020;
+        }
+        
+        .topbar .btn-link {
+            color: var(--gray-600);
+            border: none;
+            background: none;
+            padding: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .topbar .btn-link:hover {
+            color: var(--gray-900);
+        }
+        
+        /* Content Area */
+        .content-area {
+            padding: 2rem;
+        }
+        
+        /* Cards */
+        .card {
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            background-color: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Buttons */
+        .btn {
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-outline-primary {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--gray-600);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--gray-700);
+        }
+        
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Forms */
+        .form-control {
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            padding: 0.6rem 0.75rem;
+            font-size: 0.9rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Alerts */
+        .alert {
+            border-radius: var(--border-radius);
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .alert-primary {
+            background-color: rgba(79, 70, 229, 0.1);
+            color: var(--primary-dark);
+        }
+        
+        .alert-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #065f46;
+        }
+        
+        .alert-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #991b1b;
+        }
+        
+        .alert-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #92400e;
+        }
+        
+        .alert-info {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #1e40af;
+        }
+        
+        /* Badges */
+        .badge {
+            font-weight: 500;
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--border-radius);
+        }
+        
+        /* Progress bars */
+        .progress {
+            height: 8px;
+            border-radius: var(--border-radius);
+            background-color: var(--gray-200);
+        }
+        
+        .progress-bar {
+            border-radius: var(--border-radius);
+        }
+        
+        /* Accordions */
+        .accordion-item {
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            margin-bottom: 0.5rem;
+        }
+        
+        .accordion-button {
+            background-color: white;
+            color: var(--gray-700);
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: var(--gray-50);
+            color: var(--primary);
+        }
+        
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+        }
+        
+        /* Pagination */
+        .page-link {
+            color: var(--primary);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            margin: 0 2px;
+        }
+        
+        .page-link:hover {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .page-item.active .page-link {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .content-area {
+                padding: 1rem;
+            }
+        }
+        
+        /* Sidebar Overlay for Mobile */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1025;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Toast Styles */
+        .toast {
+            position: relative;
+            max-width: 350px;
+            background-color: rgba(255, 255, 255, 0.85);
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border-radius: var(--border-radius);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        .toast-header {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-top-left-radius: calc(var(--border-radius) - 1px);
+            border-top-right-radius: calc(var(--border-radius) - 1px);
+        }
+        
+        .toast-body {
+            padding: 0.75rem;
+        }
+        
+        .toast-container {
+            position: fixed;
+            z-index: 1090;
+        }
+    </style>
+    
+    <!-- Stimulus.js -->
+    <script type="module">
+        import { Application } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+        
+        const application = Application.start()
+        
+        // Sidebar Toggle Controller
+        application.register("sidebar", class extends Stimulus.Controller {
+            static targets = ["sidebar", "overlay", "content"]
+            
+            toggle() {
+                const isMobile = window.innerWidth < 992
+                
+                if (isMobile) {
+                    this.toggleMobile()
+                } else {
+                    this.toggleDesktop()
+                }
+            }
+            
+            toggleMobile() {
+                this.sidebarTarget.classList.toggle("show")
+                this.overlayTarget.classList.toggle("show")
+            }
+            
+            toggleDesktop() {
+                this.sidebarTarget.classList.toggle("collapsed")
+                this.contentTarget.classList.toggle("sidebar-collapsed")
+            }
+            
+            closeMobile() {
+                this.sidebarTarget.classList.remove("show")
+                this.overlayTarget.classList.remove("show")
+            }
+        })
+        
+        // Alert Controller for dismissible alerts
+        application.register("alert", class extends Stimulus.Controller {
+            dismiss() {
+                this.element.style.transition = 'opacity 0.3s ease'
+                this.element.style.opacity = '0'
+                setTimeout(() => this.element.remove(), 300)
+            }
+        })
+        
+        // Tab Controller
+        application.register("tabs", class extends Stimulus.Controller {
+            static targets = ["tab", "panel"]
+            
+            switch(event) {
+                const clickedTab = event.currentTarget
+                const targetPanel = clickedTab.getAttribute('data-target')
+                
+                // Remove active from all tabs and panels
+                this.tabTargets.forEach(tab => tab.classList.remove('active'))
+                this.panelTargets.forEach(panel => panel.classList.remove('active', 'show'))
+                
+                // Add active to clicked tab and target panel
+                clickedTab.classList.add('active')
+                const panel = document.querySelector(targetPanel)
+                if (panel) {
+                    panel.classList.add('active', 'show')
+                }
+            }
+        })
+    </script>
+</head>
+<body>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" data-sidebar-target="overlay" data-action="click->sidebar#closeMobile"></div>
+    
+    <div class="admin-wrapper" data-controller="sidebar">
+        <!-- Sidebar -->
+        <nav class="sidebar" data-sidebar-target="sidebar">
+            <a href="#" class="sidebar-brand">
+                <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+                Components
+            </a>
+            
+            <ul class="sidebar-nav nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#alerts">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Alerts
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#badges">
+                        <i class="bi bi-award"></i>
+                        Badges
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#breadcrumbs">
+                        <i class="bi bi-arrow-right"></i>
+                        Breadcrumbs
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#tabs">
+                        <i class="bi bi-folder"></i>
+                        Tabs
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#pagination">
+                        <i class="bi bi-arrow-left-right"></i>
+                        Pagination
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#listgroups">
+                        <i class="bi bi-list-ul"></i>
+                        List Groups
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content" data-sidebar-target="content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <button class="btn btn-link d-lg-none" data-action="click->sidebar#toggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                
+                <button class="btn btn-link d-none d-lg-block" data-action="click->sidebar#toggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                
+                <div class="ms-auto">
+                    <h5 class="mb-0">Bootstrap Components Showcase</h5>
+                </div>
+            </header>
+            
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Alerts Section -->
+                <section id="alerts" class="mb-5">
+                    <h2 class="h3 mb-4">Alerts</h2>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Basic Alerts</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-primary" role="alert">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        This is a primary alert with an icon!
+                                    </div>
+                                    
+                                    <div class="alert alert-success" role="alert">
+                                        <i class="bi bi-check-circle me-2"></i>
+                                        Your action was completed successfully!
+                                    </div>
+                                    
+                                    <div class="alert alert-warning" role="alert">
+                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                        Please check your input and try again.
+                                    </div>
+                                    
+                                    <div class="alert alert-danger mb-0" role="alert">
+                                        <i class="bi bi-x-circle me-2"></i>
+                                        An error occurred while processing your request.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Dismissible Alerts</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-info alert-dismissible" role="alert" data-controller="alert">
+                                        <i class="bi bi-lightbulb me-2"></i>
+                                        <strong>Pro tip:</strong> You can dismiss this alert by clicking the X button.
+                                        <button type="button" class="btn-close" data-action="click->alert#dismiss"></button>
+                                    </div>
+                                    
+                                    <div class="alert alert-success alert-dismissible" role="alert" data-controller="alert">
+                                        <i class="bi bi-trophy me-2"></i>
+                                        <strong>Congratulations!</strong> Your profile has been updated successfully.
+                                        <button type="button" class="btn-close" data-action="click->alert#dismiss"></button>
+                                    </div>
+                                    
+                                    <div class="alert alert-warning alert-dismissible mb-0" role="alert" data-controller="alert">
+                                        <i class="bi bi-clock me-2"></i>
+                                        <strong>Session timeout:</strong> Your session will expire in 5 minutes.
+                                        <button type="button" class="btn-close" data-action="click->alert#dismiss"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Badges Section -->
+                <section id="badges" class="mb-5">
+                    <h2 class="h3 mb-4">Badges</h2>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Badge Examples</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Colored Badges</h6>
+                                    <p>
+                                        <span class="badge bg-primary me-2">Primary</span>
+                                        <span class="badge bg-secondary me-2">Secondary</span>
+                                        <span class="badge bg-success me-2">Success</span>
+                                        <span class="badge bg-danger me-2">Danger</span>
+                                        <span class="badge bg-warning text-dark me-2">Warning</span>
+                                        <span class="badge bg-info me-2">Info</span>
+                                    </p>
+                                    
+                                    <h6 class="mt-4">Status Badges</h6>
+                                    <p>
+                                        <span class="badge bg-success me-2">
+                                            <i class="bi bi-check-circle me-1"></i>Active
+                                        </span>
+                                        <span class="badge bg-warning text-dark me-2">
+                                            <i class="bi bi-clock me-1"></i>Pending
+                                        </span>
+                                        <span class="badge bg-danger me-2">
+                                            <i class="bi bi-x-circle me-1"></i>Inactive
+                                        </span>
+                                    </p>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h6>Notification Badges</h6>
+                                    <p>
+                                        <button class="btn btn-primary me-3 position-relative">
+                                            Messages
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                99+
+                                            </span>
+                                        </button>
+                                        
+                                        <button class="btn btn-outline-secondary position-relative">
+                                            Notifications
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">
+                                                3
+                                            </span>
+                                        </button>
+                                    </p>
+                                    
+                                    <h6 class="mt-4">Pill Badges</h6>
+                                    <p>
+                                        <span class="badge rounded-pill bg-primary me-2">Admin</span>
+                                        <span class="badge rounded-pill bg-success me-2">User</span>
+                                        <span class="badge rounded-pill bg-secondary me-2">Guest</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Breadcrumbs Section -->
+                <section id="breadcrumbs" class="mb-5">
+                    <h2 class="h3 mb-4">Breadcrumbs</h2>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Navigation Breadcrumbs</h5>
+                        </div>
+                        <div class="card-body">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Components</li>
+                                </ol>
+                            </nav>
+                            
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="#" class="text-decoration-none">
+                                            <i class="bi bi-house me-1"></i>Dashboard
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="#" class="text-decoration-none">Users</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                                </ol>
+                            </nav>
+                            
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item">
+                                        <a href="#" class="text-decoration-none">Admin</a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="#" class="text-decoration-none">Settings</a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="#" class="text-decoration-none">Security</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Two-Factor Authentication</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Progress Section -->
+                <section id="progress" class="mb-5">
+                    <h2 class="h3 mb-4">Progress Bars</h2>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Basic Progress</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Server Usage: 25%</label>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 25%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Memory: 50%</label>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-warning" style="width: 50%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Storage: 75%</label>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" style="width: 75%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-0">
+                                        <label class="form-label">Project Completion: 90%</label>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" style="width: 90%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Striped & Animated</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Upload Progress</label>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 45%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Processing Files</label>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-info progress-bar-striped" style="width: 65%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Multiple Progress</label>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" style="width: 15%"></div>
+                                            <div class="progress-bar bg-warning" style="width: 20%"></div>
+                                            <div class="progress-bar bg-danger" style="width: 10%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-0">
+                                        <label class="form-label">Height Variations</label>
+                                        <div class="progress mb-2" style="height: 20px;">
+                                            <div class="progress-bar" style="width: 60%">60%</div>
+                                        </div>
+                                        <div class="progress" style="height: 3px;">
+                                            <div class="progress-bar bg-success" style="width: 80%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Tabs Section -->
+                <section id="tabs" class="mb-5">
+                    <h2 class="h3 mb-4">Tabs</h2>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">User Profile Tabs</h5>
+                        </div>
+                        <div class="card-body">
+                            <div data-controller="tabs">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" data-tabs-target="tab" data-target="#profile-tab" data-action="click->tabs#switch" type="button" role="tab">
+                                            <i class="bi bi-person me-2"></i>Profile
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" data-tabs-target="tab" data-target="#settings-tab" data-action="click->tabs#switch" type="button" role="tab">
+                                            <i class="bi bi-gear me-2"></i>Settings
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" data-tabs-target="tab" data-target="#security-tab" data-action="click->tabs#switch" type="button" role="tab">
+                                            <i class="bi bi-shield-lock me-2"></i>Security
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" data-tabs-target="tab" data-target="#notifications-tab" data-action="click->tabs#switch" type="button" role="tab">
+                                            <i class="bi bi-bell me-2"></i>Notifications
+                                        </button>
+                                    </li>
+                                </ul>
+                                
+                                <div class="tab-content mt-3">
+                                    <div class="tab-pane fade show active" id="profile-tab" data-tabs-target="panel" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <img src="https://via.placeholder.com/150" alt="Profile Picture" class="img-fluid rounded-circle">
+                                            </div>
+                                            <div class="col-md-9">
+                                                <h5>John Doe</h5>
+                                                <p class="text-muted">Senior Developer</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <strong>Email:</strong> john.doe@example.com
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <strong>Phone:</strong> +1 (555) 123-4567
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <strong>Department:</strong> Engineering
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <strong>Joined:</strong> January 2022
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="settings-tab" data-tabs-target="panel" role="tabpanel">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="firstName" class="form-label">First Name</label>
+                                                    <input type="text" class="form-control" id="firstName" value="John">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="lastName" class="form-label">Last Name</label>
+                                                    <input type="text" class="form-control" id="lastName" value="Doe">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" value="john.doe@example.com">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="bio" class="form-label">Bio</label>
+                                                <textarea class="form-control" id="bio" rows="3">Senior developer with 8+ years of experience in web development.</textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </form>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="security-tab" data-tabs-target="panel" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h6>Change Password</h6>
+                                                <form>
+                                                    <div class="mb-3">
+                                                        <label for="currentPassword" class="form-label">Current Password</label>
+                                                        <input type="password" class="form-control" id="currentPassword">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="newPassword" class="form-label">New Password</label>
+                                                        <input type="password" class="form-control" id="newPassword">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                                        <input type="password" class="form-control" id="confirmPassword">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-warning">Update Password</button>
+                                                </form>
+                                                
+                                                <hr class="my-4">
+                                                
+                                                <h6>Two-Factor Authentication</h6>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" id="twoFactorAuth" checked>
+                                                        <label class="form-check-label" for="twoFactorAuth">
+                                                            Enable Two-Factor Authentication
+                                                        </label>
+                                                    </div>
+                                                    <span class="badge bg-success ms-3">Enabled</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="notifications-tab" data-tabs-target="panel" role="tabpanel">
+                                        <h6>Email Notifications</h6>
+                                        <div class="list-group list-group-flush">
+                                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                                <div>
+                                                    <h6 class="mb-1">Security Alerts</h6>
+                                                    <small class="text-muted">Get notified about security events</small>
+                                                </div>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="securityAlerts" checked>
+                                                </div>
+                                            </div>
+                                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                                <div>
+                                                    <h6 class="mb-1">Project Updates</h6>
+                                                    <small class="text-muted">Receive updates about your projects</small>
+                                                </div>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="projectUpdates" checked>
+                                                </div>
+                                            </div>
+                                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                                <div>
+                                                    <h6 class="mb-1">Marketing Emails</h6>
+                                                    <small class="text-muted">Promotional emails and newsletters</small>
+                                                </div>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="marketingEmails">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Pagination Section -->
+                <section id="pagination" class="mb-5">
+                    <h2 class="h3 mb-4">Pagination</h2>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Standard Pagination</h5>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" tabindex="-1">
+                                                    <i class="bi bi-chevron-left"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item active">
+                                                <a class="page-link" href="#">1</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">2</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">3</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">
+                                                    <i class="bi bi-chevron-right"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    
+                                    <nav aria-label="Page navigation" class="mt-3">
+                                        <ul class="pagination pagination-sm">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Previous</a>
+                                            </li>
+                                            <li class="page-item active">
+                                                <a class="page-link" href="#">1</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">2</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">3</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Large Pagination</h5>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination pagination-lg">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">
+                                                    <i class="bi bi-chevron-double-left"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">
+                                                    <i class="bi bi-chevron-left"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">1</a>
+                                            </li>
+                                            <li class="page-item active">
+                                                <a class="page-link" href="#">2</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">3</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">
+                                                    <i class="bi bi-chevron-right"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">
+                                                    <i class="bi bi-chevron-double-right"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="text-muted">Showing 21-30 of 150 results</span>
+                                        <select class="form-select" style="width: auto;">
+                                            <option>10 per page</option>
+                                            <option>25 per page</option>
+                                            <option>50 per page</option>
+                                            <option>100 per page</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- List Groups Section -->
+                <section id="listgroups" class="mb-5">
+                    <h2 class="h3 mb-4">List Groups</h2>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Basic List Group</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="bi bi-inbox me-2 text-primary"></i>
+                                                Inbox
+                                            </div>
+                                            <span class="badge bg-primary rounded-pill">14</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="bi bi-send me-2 text-success"></i>
+                                                Sent
+                                            </div>
+                                            <span class="badge bg-success rounded-pill">2</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="bi bi-file-earmark me-2 text-warning"></i>
+                                                Drafts
+                                            </div>
+                                            <span class="badge bg-warning rounded-pill">3</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="bi bi-trash me-2 text-danger"></i>
+                                                Trash
+                                            </div>
+                                            <span class="badge bg-danger rounded-pill">5</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Interactive List Group</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="list-group list-group-flush">
+                                        <a href="#" class="list-group-item list-group-item-action active">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Active Item</h6>
+                                                <small>3 days ago</small>
+                                            </div>
+                                            <p class="mb-1">This is the currently selected item.</p>
+                                            <small>With additional information.</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Regular Item</h6>
+                                                <small class="text-muted">1 week ago</small>
+                                            </div>
+                                            <p class="mb-1">Another list item with some content.</p>
+                                            <small class="text-muted">More details here.</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Third Item</h6>
+                                                <small class="text-muted">2 weeks ago</small>
+                                            </div>
+                                            <p class="mb-1">Yet another item in the list.</p>
+                                            <small class="text-muted">Additional context.</small>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Auto-dismiss alerts after 10 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert:not(.alert-permanent)');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    if (alert.parentNode) {
+                        alert.style.transition = 'opacity 0.5s ease';
+                        alert.style.opacity = '0';
+                        setTimeout(() => {
+                            if (alert.parentNode) {
+                                alert.remove();
+                            }
+                        }, 500);
+                    }
+                }, 10000);
+            });
+        });
+    </script>
+</body>
+</html>
